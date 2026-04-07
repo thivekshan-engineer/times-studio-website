@@ -139,9 +139,13 @@ router.post('/', async (req, res) => {
       `
     };
 
-    // Send both emails
-    await transporter.sendMail(ownerMailOptions);
-    await transporter.sendMail(customerMailOptions);
+    // Send emails but don't fail if email fails
+    try {
+      await transporter.sendMail(ownerMailOptions);
+      await transporter.sendMail(customerMailOptions);
+    } catch (emailError) {
+      console.log('Email failed but booking saved:', emailError.message);
+    }
 
     res.status(201).json({ 
       success: true, 
