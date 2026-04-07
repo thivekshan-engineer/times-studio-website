@@ -16,7 +16,8 @@ function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('/api/bookings', formData);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+      await axios.post(`${apiUrl}/api/bookings`, formData);
       setStatus('success');
       setFormData({ firstName: '', phone: '', email: '', service: '', message: '' });
       setTimeout(() => setStatus(''), 3000);
