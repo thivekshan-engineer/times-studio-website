@@ -23,6 +23,7 @@ const tabs = {
 
 function Services() {
   const [activeTab, setActiveTab] = useState('photography');
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <section style={styles.section} id="services">
@@ -41,7 +42,10 @@ function Services() {
             </button>
           ))}
         </div>
-        <div style={styles.grid}>
+        <div style={{
+          ...styles.grid,
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))'
+        }}>
           {tabs[activeTab].map((service, i) => (
             <div key={i} style={styles.card}>
               <div style={styles.icon}>{service.icon}</div>
@@ -57,24 +61,25 @@ function Services() {
 }
 
 const styles = {
-  section: { padding: '6rem 2rem', background: '#e8f0fe' },
+  section: { padding: '5rem 1.25rem', background: '#e8f0fe' },
   container: { maxWidth: '1100px', margin: '0 auto' },
   tag: { fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3b82f6', fontWeight: '600', marginBottom: '0.75rem' },
   title: { fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: '700', color: '#0a1628', marginBottom: '1rem' },
   desc: { color: '#64748b', fontSize: '1rem', lineHeight: '1.8', maxWidth: '560px', marginBottom: '2.5rem' },
-  tabs: { display: 'flex', gap: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap' },
+  tabs: { display: 'flex', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' },
   tabBtn: {
-    padding: '0.65rem 1.5rem', border: '2px solid #3b82f6',
+    padding: '0.65rem 1.25rem', border: '2px solid #3b82f6',
     background: 'transparent', color: '#3b82f6',
     fontSize: '0.82rem', fontWeight: '600', letterSpacing: '0.08em',
-    textTransform: 'uppercase', cursor: 'pointer', borderRadius: '3px'
+    textTransform: 'uppercase', cursor: 'pointer', borderRadius: '3px',
+    flex: '1', minWidth: '120px', textAlign: 'center'
   },
   tabBtnActive: { background: '#3b82f6', color: 'white' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' },
+  grid: { display: 'grid', gap: '1.25rem' },
   card: {
-    background: 'white', borderRadius: '6px', padding: '2rem',
+    background: 'white', borderRadius: '6px', padding: '1.75rem',
     boxShadow: '0 2px 20px rgba(0,0,0,0.06)',
-    border: '1px solid rgba(59,130,246,0.1)', transition: 'all 0.3s'
+    border: '1px solid rgba(59,130,246,0.1)'
   },
   icon: { fontSize: '2.2rem', marginBottom: '1rem' },
   cardTitle: { fontFamily: 'Georgia, serif', fontSize: '1.1rem', fontWeight: '700', color: '#0a1628', marginBottom: '0.5rem' },

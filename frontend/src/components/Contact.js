@@ -7,6 +7,7 @@ function Contact() {
   });
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
+  const isMobile = window.innerWidth <= 768;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +33,11 @@ function Contact() {
   return (
     <section style={styles.section} id="contact">
       <div style={styles.container}>
-        <div style={styles.grid}>
+        <div style={{
+          ...styles.grid,
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+          gap: isMobile ? '2rem' : '4rem'
+        }}>
           <div>
             <p style={styles.tag}>Get In Touch</p>
             <h2 style={styles.title}>Book An Appointment</h2>
@@ -76,7 +81,10 @@ function Contact() {
               </div>
             )}
             <form onSubmit={handleSubmit}>
-              <div style={styles.formRow}>
+              <div style={{
+                ...styles.formRow,
+                gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr'
+              }}>
                 <div style={styles.formGroup}>
                   <label style={styles.label}>First Name</label>
                   <input
@@ -143,9 +151,9 @@ function Contact() {
 }
 
 const styles = {
-  section: { padding: '6rem 2rem', background: 'linear-gradient(135deg, #0a1628, #1a3a6b)' },
+  section: { padding: '5rem 1.25rem', background: 'linear-gradient(135deg, #0a1628, #1a3a6b)' },
   container: { maxWidth: '1100px', margin: '0 auto' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'start' },
+  grid: { display: 'grid', alignItems: 'start' },
   tag: { fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#f59e0b', fontWeight: '600', marginBottom: '0.75rem' },
   title: { fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: '700', color: 'white', marginBottom: '1rem' },
   desc: { color: 'rgba(255,255,255,0.65)', fontSize: '1rem', lineHeight: '1.8', marginBottom: '2rem' },
@@ -157,14 +165,14 @@ const styles = {
   hours: { background: 'rgba(255,255,255,0.08)', padding: '1.25rem', borderRadius: '6px' },
   hoursRow: { display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'rgba(255,255,255,0.75)', marginBottom: '0.5rem' },
   hoursTime: { color: '#f59e0b', fontWeight: '600' },
-  form: { background: 'white', borderRadius: '8px', padding: '2.5rem' },
+  form: { background: 'white', borderRadius: '8px', padding: '2rem' },
   formTitle: { fontFamily: 'Georgia, serif', fontSize: '1.3rem', color: '#0a1628', marginBottom: '1.5rem' },
   successMsg: { background: '#d1fae5', color: '#065f46', padding: '0.75rem 1rem', borderRadius: '4px', fontSize: '0.85rem', marginBottom: '1rem' },
   errorMsg: { background: '#fee2e2', color: '#991b1b', padding: '0.75rem 1rem', borderRadius: '4px', fontSize: '0.85rem', marginBottom: '1rem' },
-  formRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' },
+  formRow: { display: 'grid', gap: '1rem' },
   formGroup: { marginBottom: '1.25rem' },
   label: { display: 'block', fontSize: '0.78rem', fontWeight: '600', color: '#0a1628', marginBottom: '0.4rem', letterSpacing: '0.05em', textTransform: 'uppercase' },
-  input: { width: '100%', padding: '0.75rem 1rem', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '0.88rem', color: '#1e293b', background: '#f8fafc', fontFamily: 'inherit' },
+  input: { width: '100%', padding: '0.75rem 1rem', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '0.88rem', color: '#1e293b', background: '#f8fafc', fontFamily: 'inherit', boxSizing: 'border-box' },
   submitBtn: { width: '100%', padding: '0.9rem', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', fontSize: '0.88rem', fontWeight: '600', cursor: 'pointer', letterSpacing: '0.05em' }
 };
 

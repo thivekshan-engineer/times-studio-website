@@ -10,6 +10,8 @@ const items = [
 ];
 
 function Gallery() {
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <section style={styles.section} id="gallery">
       <div style={styles.container}>
@@ -18,13 +20,14 @@ function Gallery() {
           <h2 style={styles.title}>Studio Gallery</h2>
           <p style={styles.desc}>A glimpse of our professional photography and framing work.</p>
         </div>
-        <div style={styles.grid}>
+        <div style={{
+          ...styles.grid,
+          gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)'
+        }}>
           {items.map((item, i) => (
             <div key={i} style={{ ...styles.item, background: item.bg }}>
               <div style={styles.icon}>{item.icon}</div>
-              <div style={styles.overlay}>
-                <span style={styles.overlayText}>{item.label}</span>
-              </div>
+              <div style={styles.label}>{item.label}</div>
             </div>
           ))}
         </div>
@@ -34,26 +37,21 @@ function Gallery() {
 }
 
 const styles = {
-  section: { padding: '6rem 2rem', background: '#e8f0fe' },
+  section: { padding: '5rem 1.25rem', background: '#e8f0fe' },
   container: { maxWidth: '1100px', margin: '0 auto' },
   header: { textAlign: 'center', marginBottom: '3rem' },
   tag: { fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3b82f6', fontWeight: '600', marginBottom: '0.75rem' },
   title: { fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: '700', color: '#0a1628', marginBottom: '1rem' },
   desc: { color: '#64748b', fontSize: '1rem', lineHeight: '1.8' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' },
+  grid: { display: 'grid', gap: '0.75rem' },
   item: {
-    aspectRatio: '1', borderRadius: '6px', overflow: 'hidden',
+    aspectRatio: '1', borderRadius: '8px', overflow: 'hidden',
     position: 'relative', cursor: 'pointer',
-    display: 'flex', alignItems: 'center', justifyContent: 'center'
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center', justifyContent: 'center', gap: '0.5rem'
   },
-  icon: { fontSize: '3rem', zIndex: 1 },
-  overlay: {
-    position: 'absolute', inset: 0,
-    background: 'rgba(10,22,40,0.7)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    opacity: 0, transition: 'opacity 0.3s'
-  },
-  overlayText: { color: 'white', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase' }
+  icon: { fontSize: '2.5rem', zIndex: 1 },
+  label: { color: 'white', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center', padding: '0 0.5rem' }
 };
 
 export default Gallery;

@@ -1,6 +1,8 @@
 import React from 'react';
 
 function Hero() {
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <section style={styles.hero} id="home">
       <div style={styles.overlay}></div>
@@ -17,23 +19,23 @@ function Hero() {
           <a href="#services" style={styles.btnPrimary}>Explore Services</a>
           <a href="#contact" style={styles.btnOutline}>Contact Us</a>
         </div>
-        <div style={styles.stats}>
-          <div style={styles.stat}>
-            <div style={styles.statNum}>30+</div>
-            <div style={styles.statLabel}>Years Experience</div>
-          </div>
-          <div style={styles.stat}>
-            <div style={styles.statNum}>5000+</div>
-            <div style={styles.statLabel}>Happy Clients</div>
-          </div>
-          <div style={styles.stat}>
-            <div style={styles.statNum}>100+</div>
-            <div style={styles.statLabel}>Destinations</div>
-          </div>
-          <div style={styles.stat}>
-            <div style={styles.statNum}>2</div>
-            <div style={styles.statLabel}>Services Under One Roof</div>
-          </div>
+        <div style={{
+          ...styles.stats,
+          gap: isMobile ? '1.5rem' : '3rem',
+          marginTop: isMobile ? '2.5rem' : '4rem',
+          paddingTop: isMobile ? '2rem' : '3rem',
+        }}>
+          {[
+            { num: '30+', label: 'Years Experience' },
+            { num: '5000+', label: 'Happy Clients' },
+            { num: '100+', label: 'Destinations' },
+            { num: '2', label: 'Services Under One Roof' },
+          ].map((s, i) => (
+            <div key={i} style={styles.stat}>
+              <div style={styles.statNum}>{s.num}</div>
+              <div style={styles.statLabel}>{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -45,13 +47,13 @@ const styles = {
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #0a1628 0%, #1a3a6b 50%, #1e4080 100%)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    position: 'relative', overflow: 'hidden', padding: '6rem 2rem 4rem'
+    position: 'relative', overflow: 'hidden', padding: '6rem 1.25rem 4rem'
   },
   overlay: {
     position: 'absolute', inset: 0,
     background: 'radial-gradient(circle at 30% 50%, rgba(59,130,246,0.15) 0%, transparent 60%)'
   },
-  content: { position: 'relative', textAlign: 'center', maxWidth: '800px' },
+  content: { position: 'relative', textAlign: 'center', maxWidth: '800px', width: '100%' },
   badge: {
     display: 'inline-block',
     background: 'rgba(59,130,246,0.2)',
@@ -66,12 +68,12 @@ const styles = {
   },
   gold: { color: '#f59e0b' },
   subtitle: {
-    fontFamily: 'Georgia, serif', fontSize: '1.2rem',
+    fontFamily: 'Georgia, serif', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)',
     color: '#3b82f6', letterSpacing: '0.15em',
     textTransform: 'uppercase', marginBottom: '1.5rem'
   },
   desc: {
-    color: 'rgba(255,255,255,0.65)', fontSize: '1rem',
+    color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
     lineHeight: '1.8', maxWidth: '560px', margin: '0 auto 2.5rem'
   },
   btns: { display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' },
@@ -85,12 +87,11 @@ const styles = {
     textDecoration: 'none', fontWeight: '500', fontSize: '0.88rem'
   },
   stats: {
-    display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap',
-    marginTop: '4rem', paddingTop: '3rem',
+    display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
     borderTop: '1px solid rgba(255,255,255,0.1)'
   },
   stat: { textAlign: 'center' },
-  statNum: { fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: '700', color: '#f59e0b' },
+  statNum: { fontFamily: 'Georgia, serif', fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: '700', color: '#f59e0b' },
   statLabel: { fontSize: '0.72rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '0.25rem' }
 };
 
