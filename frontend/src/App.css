@@ -29,36 +29,66 @@
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Mobile Responsive Styles */
+/* ===== PAGE FADE IN ===== */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+  animation: pageFadeIn 0.8s ease forwards;
+}
+
+/* ===== SMOOTH SCROLLING ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== SECTION TRANSITIONS ===== */
+section {
+  transition: opacity 0.5s ease;
+}
+
+/* ===== LINK TRANSITIONS ===== */
+a {
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+/* ===== BUTTON TRANSITIONS ===== */
+button {
+  transition: all 0.25s ease;
+}
+
+/* ===== IMAGE TRANSITIONS ===== */
+img {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ===== NAVBAR SCROLL EFFECT ===== */
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+nav {
+  animation: navFadeIn 0.6s ease forwards;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
   nav {
     padding: 0 1rem !important;
   }
-
-  /* Show hamburger menu on mobile */
-  nav div[style*="display: none"] {
-    display: flex !important;
-  }
-
-  /* Hide nav links on mobile */
   nav ul {
     display: none !important;
   }
-
-  /* Show nav links when menu is open */
   nav ul[style*="flexDirection: column"] {
     display: flex !important;
   }
-
-  /* Hide CTA button on mobile */
   nav a[style*="3b82f6"] {
     display: none !important;
   }
