@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Admin from './components/Admin';
 import WhatsAppButton from './components/WhatsAppButton';
 import LoadingScreen from './components/LoadingScreen';
+import BackToTop from './components/BackToTop';
 
 function App() {
   var isAdmin = window.location.pathname === '/admin';
@@ -44,7 +45,8 @@ function App() {
     React.createElement(Gallery, null),
     React.createElement(Contact, null),
     React.createElement(Footer, null),
-    React.createElement(WhatsAppButton, null)
+    React.createElement(WhatsAppButton, null),
+    React.createElement(BackToTop, null)
   );
 }
 
