@@ -24,7 +24,7 @@ function App() {
     return function() {
       clearTimeout(timer);
     };
-  }, []);
+  }, [setLoading]);
 
   if (isAdmin) {
     return React.createElement(Admin, null);
