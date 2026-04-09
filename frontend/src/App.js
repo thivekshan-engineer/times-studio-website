@@ -7,9 +7,10 @@ import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
+import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
-  const isAdmin = window.location.pathname === '/admin';
+  var isAdmin = window.location.pathname === '/admin';
 
   if (isAdmin) {
     return <Admin />;
@@ -24,6 +25,7 @@ function App() {
       <Gallery />
       <Contact />
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
