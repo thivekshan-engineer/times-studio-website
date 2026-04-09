@@ -29,15 +29,41 @@ function StatItem({ num, label, started }) {
   );
 }
 
+const phrases = ['Professional Photography', 'Air Travel Services', 'Framing & More'];
+
 function Hero() {
   const isMobile = window.innerWidth <= 768;
   const [started, setStarted] = useState(false);
   const ref = useRef(null);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [displayed, setDisplayed] = useState('');
+  const [typing, setTyping] = useState(true);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) setStarted(true);
-    }, { threshold: 0.3 });
+    const current = phrases[phraseIndex];
+    let timeout;
+    if (typing) {
+      if (displayed.length < current.length) {
+        timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80);
+      } else {
+        timeout = setTimeout(() => setTyping(false), 1500);
+      }
+    } else {
+      if (displayed.length > 0) {
+        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
+      } else {
+        setPhraseIndex((phraseIndex + 1) % phrases.length);
+        setTyping(true);
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [displayed, typing, phraseIndex]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setStarted(true); },
+      { threshold: 0.3 }
+    );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
@@ -56,6 +82,10 @@ function Hero() {
         <div style={styles.badge}>📍 Batticaloa, Sri Lanka</div>
         <h1 style={styles.title}>Times <span style={styles.gold}>Studio</span></h1>
         <div style={styles.subtitle}>& T Marin Air Travels</div>
+        <div style={styles.typingBox}>
+          <span style={styles.typingText}>{displayed}</span>
+          <span style={styles.cursor}>|</span>
+        </div>
         <p style={styles.desc}>
           Your trusted destination for professional photography services
           and seamless air travel arrangements in Batticaloa.
@@ -87,7 +117,10 @@ const styles = {
   badge: { display: 'inline-block', background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)', color: '#3b82f6', padding: '0.4rem 1.2rem', fontSize: '0.72rem', letterSpacing: '0.25em', textTransform: 'uppercase', borderRadius: '100px', marginBottom: '1.5rem' },
   title: { fontFamily: 'Georgia, serif', fontSize: 'clamp(2.5rem, 7vw, 5rem)', fontWeight: '900', color: '#ffffff', lineHeight: '1.1', marginBottom: '0.5rem' },
   gold: { color: '#f59e0b' },
-  subtitle: { fontFamily: 'Georgia, serif', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', color: '#3b82f6', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.5rem' },
+  subtitle: { fontFamily: 'Georgia, serif', fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', color: '#3b82f6', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1rem' },
+  typingBox: { height: '2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  typingText: { fontSize: 'clamp(1rem, 3vw, 1.3rem)', color: '#f59e0b', fontFamily: 'Georgia, serif', fontWeight: '600' },
+  cursor: { fontSize: 'clamp(1rem, 3vw, 1.3rem)', color: '#f59e0b', marginLeft: '2px' },
   desc: { color: 'rgba(255,255,255,0.65)', fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', lineHeight: '1.8', maxWidth: '560px', margin: '0 auto 2.5rem' },
   btns: { display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' },
   btnPrimary: { background: '#3b82f6', color: 'white', padding: '0.85rem 2rem', borderRadius: '3px', textDecoration: 'none', fontWeight: '600', fontSize: '0.88rem' },

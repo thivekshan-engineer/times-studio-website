@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+function useReveal() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return [ref, visible];
+}
 
 function WhyUs() {
   const isMobile = window.innerWidth <= 768;
+  const [ref1, vis1] = useReveal();
+  const [ref2, vis2] = useReveal();
+  const [ref3, vis3] = useReveal();
+  const [ref4, vis4] = useReveal();
+  const [ref5, vis5] = useReveal();
+
+  const revealStyle = (visible, delay = 0) => ({
+    opacity: visible ? 1 : 0,
+    transform: visible ? 'translateY(0)' : 'translateY(40px)',
+    transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`
+  });
 
   return (
     <section style={styles.section} id="why">
@@ -12,9 +37,11 @@ function WhyUs() {
           gap: isMobile ? '2rem' : '4rem'
         }}>
           <div>
-            <p style={styles.tag}>Why Choose Us</p>
-            <h2 style={styles.title}>Batticaloa's Most Trusted Studio</h2>
-            <p style={styles.desc}>Under the leadership of <strong>Mr. Umeshwaran Kaasilingam</strong>, we have been serving the Batticaloa community with dedication and professionalism for over 30 years.</p>
+            <div ref={ref1} style={revealStyle(vis1, 0)}>
+              <p style={styles.tag}>Why Choose Us</p>
+              <h2 style={styles.title}>Batticaloa's Most Trusted Studio</h2>
+              <p style={styles.desc}>Under the leadership of <strong>Mr. Umeshwaran Kaasilingam</strong>, we have been serving the Batticaloa community with dedication and professionalism for over 30 years.</p>
+            </div>
             <div style={styles.features}>
               {[
                 { icon: '⚡', title: 'Fast Turnaround', desc: 'Most photo services completed same day. No long waiting times.' },
@@ -22,7 +49,7 @@ function WhyUs() {
                 { icon: '✈️', title: 'One Stop Travel Shop', desc: 'Photos, visa, and flights — all in one convenient location.' },
                 { icon: '💬', title: 'Friendly Local Service', desc: 'Serving Batticaloa with warmth and professionalism since day one.' },
               ].map((f, i) => (
-                <div key={i} style={styles.feature}>
+                <div key={i} ref={[ref2, ref3, ref4, ref5][i]} style={{ ...styles.feature, ...revealStyle([vis2, vis3, vis4, vis5][i], i * 0.15) }}>
                   <div style={styles.featureIcon}>{f.icon}</div>
                   <div>
                     <h4 style={styles.featureTitle}>{f.title}</h4>
@@ -32,7 +59,7 @@ function WhyUs() {
               ))}
             </div>
           </div>
-          <div style={styles.card}>
+          <div ref={ref2} style={{ ...styles.card, ...revealStyle(vis2, 0.2) }}>
             <div style={styles.cardTitle}>Times Studio & T Marin Air Travels</div>
             <p style={styles.cardDesc}>Founded and led by Mr. Umeshwaran Kaasilingam, your trusted one-stop destination for photography and travel needs in Batticaloa for over 30 years.</p>
             <div style={styles.statsGrid}>
